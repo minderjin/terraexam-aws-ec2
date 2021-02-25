@@ -26,7 +26,7 @@ module "bastion" {
   instance_count         = 1
 
   ami                    = "ami-0f9eefbab78499455"  // Amazon Linux 2
-  instance_type          = "t3.micro"
+  instance_type          = "t2.micro"
   key_name               = "oregon-key"
   monitoring             = true
   vpc_security_group_ids = local.bastion_security_group_ids
