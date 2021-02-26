@@ -26,6 +26,27 @@ data "terraform_remote_state" "sg" {
   }
 }
 
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name = "name"
+
+    values = [
+      "amzn-ami-hvm-*-x86_64-gp2",
+    ]
+  }
+
+  filter {
+    name = "owner-alias"
+
+    values = [
+      "amazon",
+    ]
+  }
+}
 
 ## Usage ##
 # resource "aws_instance" "redis_server" {
@@ -70,7 +91,7 @@ module "bastion" {
   name                   = "${var.name}-bastion"
   instance_count         = 1
 
-  ami                    = "ami-09c5e030f74651050"  // Amazon Linux 2
+  ami                    = data.aws_ami.amazon_linux.id //"ami-09c5e030f74651050"  // Amazon Linux 2
   instance_type          = "t2.micro"
   key_name               = "oregon-key"
   monitoring             = false
