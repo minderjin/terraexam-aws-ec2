@@ -74,7 +74,6 @@ module "bastion" {
   subnet_id              = local.public_subnet_ids[0]
   
   associate_public_ip_address = true
-  "${aws_eip.bastion.*.public_ip}"
-
+  
   tags = var.tags
 }
