@@ -58,7 +58,7 @@ resource "aws_eip" "bastion" {
   tags = merge (
     var.tags,
     {
-      Name = "bastion"
+      Name = "${var.name}-bastion"
     }
   )
 }
