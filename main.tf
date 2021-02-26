@@ -55,7 +55,12 @@ resource "aws_eip" "bastion" {
   vpc = true
   instance = module.bastion.id[0]
   
-  tags = var.tags
+  tags = merge (
+    var.tags,
+    {
+      Name = "bastion"
+    }
+  )
 }
 
 module "bastion" {
