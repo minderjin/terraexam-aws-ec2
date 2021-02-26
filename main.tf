@@ -25,15 +25,13 @@ module "bastion" {
   name                   = "${var.name}-bastion"
   instance_count         = 1
 
-  ami                    = "ami-0f9eefbab78499455"  // Amazon Linux 2
+  ami                    = "ami-09c5e030f74651050"  // Amazon Linux 2
   instance_type          = "t2.micro"
   key_name               = "oregon-key"
-  monitoring             = true
+  monitoring             = false
+  
   vpc_security_group_ids = local.bastion_security_group_ids
   subnet_id              = local.public_subnet_ids[0]
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
+  tags = var.tags
 }
