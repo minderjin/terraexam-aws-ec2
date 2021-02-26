@@ -37,27 +37,27 @@ data "terraform_remote_state" "sg" {
 
 
 ## EC2 AMI ##
-# data "aws_ami" "amazon_linux" {
-#   most_recent = true
+data "aws_ami" "amazon_linux" {
+  most_recent = true
 
-#   owners = ["amazon"]
+  owners = ["amazon"]
 
-#   filter {
-#     name = "name"
+  filter {
+    name = "name"
 
-#     values = [
-#       "amzn2-ami-hvm-*-x86_64-gp2",
-#     ]
-#   }
+    values = [
+      "amzn2-ami-hvm-*-x86_64-gp2",
+    ]
+  }
 
-#   filter {
-#     name = "owner-alias"
+  filter {
+    name = "owner-alias"
 
-#     values = [
-#       "amazon",
-#     ]
-#   }
-# }
+    values = [
+      "amazon",
+    ]
+  }
+}
 
 locals {
   user_data = <<EOF
