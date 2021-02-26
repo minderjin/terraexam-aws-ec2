@@ -70,7 +70,7 @@ module "bastion" {
   vpc_security_group_ids = local.bastion_security_group_ids
   subnet_id              = local.public_subnet_ids[0]
   
-  associate_public_ip_address = aws_eip.bastion.id
+  associate_public_ip_address = aws_eip.bastion.public_ip
 
   tags = var.tags
 }
