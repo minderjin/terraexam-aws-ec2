@@ -37,20 +37,24 @@ data "terraform_remote_state" "sg" {
 
 
 # Resource - deafult security group
-data "aws_security_group" "default" {
-  name = "default"
-  #   vpc_id = module.vpc.vpc_id
-  vpc_id = local.vpc_id
-}
+# data "aws_security_group" "default" {
+#   name = "default"
+#   #   vpc_id = module.vpc.vpc_id
+#   vpc_id = local.vpc_id
+# }
 
 
 locals {
-  vpc_id = data.terraform_remote_state.vpc.outputs.vpc_id //"vpc-04bc8955784f0fa6d"
-  vpc_cidr_block = data.terraform_remote_state.vpc.outputs.vpc_cidr_block //"10.0.0.0/16"
-  bastion_security_group_ids = [ "${data.terraform_remote_state.sg.outputs.bastion_security_group_id}" ]  //["sg-0b28759a17906d1e8"]
-  public_subnet_ids = data.terraform_remote_state.vpc.outputs.public_subnets  //["subnet-0d731cbf3711d6ba5","subnet-092b6128a970b5666"]
-  private_subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnets  //["subnet-05f4aa0ef2c3d01eb","subnet-0324151bd7d5f1577"]
-  database_subnet_ids = data.terraform_remote_state.vpc.outputs.database_subnets  //["subnet-042c5dad0a4d8d1a0","subnet-0cc660ffb3b50fcf2"]
+  vpc_id = data.terraform_remote_state.vpc.outputs.vpc_id
+  vpc_cidr_block = data.terraform_remote_state.vpc.outputs.vpc_cidr_block
+  public_subnet_ids = data.terraform_remote_state.vpc.outputs.public_subnets
+  private_subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnets
+  database_subnet_ids = data.terraform_remote_state.vpc.outputs.database_subnets
+
+  bastion_security_group_ids = ["${data.terraform_remote_state.sg.outputs.bastion_security_group_id}"]
+  alb_security_group_ids = ["${data.terraform_remote_state.sg.outputs.alb_security_group_id}"]
+  was_security_group_ids = ["${data.terraform_remote_state.sg.outputs.was_security_group_id}"]
+  db_security_group_ids = ["${data.terraform_remote_state.sg.outputs.db_security_group_id}"]
 }
 
 module "bastion" {
