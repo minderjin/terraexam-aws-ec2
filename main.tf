@@ -53,7 +53,7 @@ locals {
 resource "aws_eip" "bastion" {
   count = 1
   vpc = true
-  instance = module.bastion[0].id
+  instance = module.bastion.id[0]
   
   tags = var.tags
 }
