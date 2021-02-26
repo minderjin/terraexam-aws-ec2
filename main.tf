@@ -3,6 +3,7 @@ provider "aws" {
   region = var.region
 }
 
+## Another Workspaces ##
 # Workspace - vpc
 data "terraform_remote_state" "vpc" {
   backend = "remote"
@@ -25,22 +26,14 @@ data "terraform_remote_state" "sg" {
   }
 }
 
-### Usage ###
-#
+
+## Usage ##
 # resource "aws_instance" "redis_server" {
 #   # Terraform 0.12 syntax: use the "outputs.<OUTPUT NAME>" attribute
 #   subnet_id = data.terraform_remote_state.vpc.outputs.subnet_id
 
 #   # Terraform 0.11 syntax: use the "<OUTPUT NAME>" attribute
 #   subnet_id = "${data.terraform_remote_state.vpc.subnet_id}"
-# }
-
-
-# Resource - deafult security group
-# data "aws_security_group" "default" {
-#   name = "default"
-#   #   vpc_id = module.vpc.vpc_id
-#   vpc_id = local.vpc_id
 # }
 
 
@@ -55,6 +48,11 @@ locals {
   alb_security_group_ids = ["${data.terraform_remote_state.sg.outputs.alb_security_group_id}"]
   was_security_group_ids = ["${data.terraform_remote_state.sg.outputs.was_security_group_id}"]
   db_security_group_ids = ["${data.terraform_remote_state.sg.outputs.db_security_group_id}"]
+}
+
+resource "aws_eip" "bastion" {
+  count = 1
+  vpc = true
 }
 
 module "bastion" {
