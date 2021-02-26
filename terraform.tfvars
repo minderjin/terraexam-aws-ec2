@@ -22,7 +22,7 @@
 #     AWS_SECRET_ACCESS_KEY 
 #
 
-name = "example"
+name   = "example"
 region = "us-west-2"
 
 tags = {
