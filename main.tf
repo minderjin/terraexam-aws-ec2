@@ -46,7 +46,7 @@ data "terraform_remote_state" "sg" {
 #     name = "name"
 
 #     values = [
-#       "amzn-ami-hvm-*-x86_64-gp2",
+#       "amzn2-ami-hvm-*-x86_64-gp2",
 #     ]
 #   }
 
@@ -70,7 +70,6 @@ EOF
 #include https://go.aws/38GIqcB
 EOF
 }
-
 
 locals {
   vpc_id              = data.terraform_remote_state.vpc.outputs.vpc_id
@@ -105,7 +104,7 @@ module "bastion" {
   instance_count = 1
 
   name                        = "${var.name}-bastion"
-  ami                         = "ami-09c5e030f74651050" // Amazon Linux 2 //data.aws_ami.amazon_linux.id //Amazon Linux
+  ami                         = data.aws_ami.amazon_linux.id  //"ami-09c5e030f74651050" // Amazon Linux 2 
   instance_type               = "t2.micro"
   subnet_id                   = local.public_subnet_ids[0]
   vpc_security_group_ids      = local.bastion_security_group_ids
