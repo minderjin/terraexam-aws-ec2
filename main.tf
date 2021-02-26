@@ -63,6 +63,11 @@ locals {
   user_data = <<EOF
 #!/bin/bash
 echo "Hello Terraform!"
+yum -y update
+EOF
+
+  was_user_data = <<EOF
+#include https://go.aws/38GIqcB
 EOF
 }
 
