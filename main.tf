@@ -105,7 +105,7 @@ module "bastion" {
 
   name                        = "${var.name}-bastion"
   ami                         = data.aws_ami.amazon_linux.id  //"ami-09c5e030f74651050" //Amazon Linux 2 
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   subnet_id                   = local.public_subnet_ids[0]
   vpc_security_group_ids      = local.bastion_security_group_ids
   associate_public_ip_address = true
