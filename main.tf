@@ -76,10 +76,10 @@ locals {
   private_subnet_ids  = data.terraform_remote_state.vpc.outputs.private_subnets
   database_subnet_ids = data.terraform_remote_state.vpc.outputs.database_subnets
 
-  bastion_security_group_ids = ["${data.terraform_remote_state.sg.outputs.bastion_security_group_id}"]
-  alb_security_group_ids     = ["${data.terraform_remote_state.sg.outputs.alb_security_group_id}"]
-  was_security_group_ids     = ["${data.terraform_remote_state.sg.outputs.was_security_group_id}"]
-  db_security_group_ids      = ["${data.terraform_remote_state.sg.outputs.db_security_group_id}"]
+  bastion_security_group_ids = [data.terraform_remote_state.sg.outputs.bastion_security_group_id]
+  alb_security_group_ids     = [data.terraform_remote_state.sg.outputs.alb_security_group_id]
+  was_security_group_ids     = [data.terraform_remote_state.sg.outputs.was_security_group_id]
+  db_security_group_ids      = [data.terraform_remote_state.sg.outputs.db_security_group_id]
 }
 
 resource "aws_eip" "bastion" {
