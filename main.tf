@@ -113,7 +113,7 @@ module "bastion" {
 
   # subnet_id                   = local.public_subnets[0]
   subnet_ids             = local.public_subnet_ids
-  vpc_security_group_ids = [local.bastion_security_group_ids]
+  vpc_security_group_ids = local.bastion_security_group_ids
   user_data_base64       = base64encode(local.user_data)
 
   root_block_device = [
