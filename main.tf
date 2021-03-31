@@ -143,24 +143,24 @@ module "was" {
 
   instance_count = 1
 
-  name                        = "${var.name}-was"
-  ami                         = data.aws_ami.amazon_linux.id  //"ami-09c5e030f74651050" //Amazon Linux 2 
-  instance_type               = "t3.micro"
-  subnet_id                   = local.private_subnet_ids[0]
-  vpc_security_group_ids      = local.was_security_group_ids
-  associate_public_ip_address = false
-  key_name                    = "oregon-key"
-  monitoring                  = false
-  cpu_credits                 = "unlimited"
+  name = "${var.name}-was"
+  ami  = data.aws_ami.amazon_linux.id //"ami-09c5e030f74651050" //Amazon Linux 2 
 
-  user_data_base64 = base64encode(local.was_user_data)
+  instance_type               = var.was_instance_type
+  key_name                    = var.was_key_name
+  disable_api_termination     = var.was_termination_protection
+  associate_public_ip_address = var.was_associate_public_ip_address
+  monitoring                  = var.was_monitoring
+  cpu_credits                 = var.was_cpu_credits
 
-  disable_api_termination = false
+  subnet_ids             = local.private_subnet_ids
+  vpc_security_group_ids = local.was_security_group_ids
+  user_data_base64       = base64encode(local.was_user_data)
 
   root_block_device = [
     {
       volume_type           = "gp3"
-      volume_size           = 8
+      volume_size           = var.was_volume_size
       delete_on_termination = true
     },
   ]
