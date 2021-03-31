@@ -27,13 +27,11 @@ data "terraform_remote_state" "sg" {
 }
 
 ## Usage ##
-# resource "aws_instance" "redis_server" {
 #   # Terraform 0.12 syntax: use the "outputs.<OUTPUT NAME>" attribute
 #   subnet_id = data.terraform_remote_state.vpc.outputs.subnet_id
-
+#
 #   # Terraform 0.11 syntax: use the "<OUTPUT NAME>" attribute
 #   subnet_id = "${data.terraform_remote_state.vpc.subnet_id}"
-# }
 
 
 ## EC2 AMI ##
@@ -103,28 +101,29 @@ module "bastion" {
 
   instance_count = 1
 
-  name                        = "${var.name}-bastion"
-  ami                         = data.aws_ami.amazon_linux.id  //"ami-09c5e030f74651050" //Amazon Linux 2 
-  instance_type               = "t3.micro"
-  subnet_id                   = local.public_subnet_ids[0]
-  vpc_security_group_ids      = local.bastion_security_group_ids
-  associate_public_ip_address = true
-  key_name                    = "oregon-key"
-  monitoring                  = false
-  cpu_credits                 = "unlimited"
+  name = "${var.name}-bastion"
+  ami  = data.aws_ami.amazon_linux.id //"ami-09c5e030f74651050" //Amazon Linux 2 
 
-  user_data_base64 = base64encode(local.user_data)
+  instance_type               = var.bastion_instance_type
+  key_name                    = var.bastion_key_name
+  disable_api_termination     = var.bastion_termination_protection
+  associate_public_ip_address = var.bastion_associate_public_ip_address
+  monitoring                  = var.bastion_monitoring
+  cpu_credits                 = var.bastion_cpu_credits
 
-  disable_api_termination = false
+  # subnet_id                   = local.public_subnets[0]
+  subnet_ids             = local.public_subnets
+  vpc_security_group_ids = [local.bastion_security_group_id]
+  user_data_base64       = base64encode(local.user_data)
 
   root_block_device = [
     {
       volume_type           = "gp3"
-      volume_size           = 8
+      volume_size           = var.bastion_volume_size
       delete_on_termination = true
     },
   ]
-
+  
   # ebs_block_device = [
   #   {
   #     device_name = "/dev/sdf"
@@ -137,7 +136,6 @@ module "bastion" {
 
   tags = var.tags
 }
-
 
 module "was" {
   source  = "terraform-aws-modules/ec2-instance/aws"

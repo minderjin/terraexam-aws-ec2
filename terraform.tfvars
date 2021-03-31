@@ -29,3 +29,21 @@ tags = {
   Terraform   = "true"
   Environment = "dev"
 }
+
+## Bastion
+bastion_instance_type               = "t3.micro"
+bastion_key_name                    = "ssh-key"
+bastion_termination_protection      = false
+bastion_associate_public_ip_address = true
+bastion_monitoring                  = false
+bastion_cpu_credits                 = "unlimited"
+bastion_volume_size                 = 8
+
+## WAS
+was_instance_type               = "t3.micro"
+was_key_name                    = "ssh-key"
+was_termination_protection      = false
+was_associate_public_ip_address = false
+was_monitoring                  = true
+was_cpu_credits                 = "unlimited"
+was_volume_size                 = 10
